@@ -17,7 +17,11 @@ ROOT_DIR = APP_DIR.parents[2]
 EXERCISES_DIR = ROOT_DIR / "Instructions" / "Exercises"
 MEDIA_DIR = ROOT_DIR / "Instructions" / "Media"
 
-app = Flask(__name__, template_folder=str(APP_DIR), static_folder=str(APP_DIR / "static"))
+app = Flask(
+    __name__,
+    template_folder=str(ROOT_DIR),
+    static_folder=str(APP_DIR / "static"),
+)
 
 AGENT_SETUP_MESSAGE = (
     "Your MCP inventory agent is not connected yet. "
