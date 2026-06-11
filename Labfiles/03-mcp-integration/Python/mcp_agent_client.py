@@ -5,11 +5,16 @@ Connects the local FastMCP inventory server to a Microsoft Foundry agent and
 returns chat responses for the Flask interface.
 """
 
+import asyncio
 import os
+import sys
 import threading
+from contextlib import AsyncExitStack
 from pathlib import Path
 
 from dotenv import load_dotenv
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
 
 
 APP_DIR = Path(__file__).resolve().parent
@@ -36,9 +41,30 @@ class MCPInventoryAgentClient:
 
     def send_message(self, user_message: str) -> str:
         """Send a message to the MCP-enabled agent and return text output."""
-        raise RuntimeError("MCP agent chat is not wired yet")
+        with self._lock:
+            return asyncio.run(self._send_message_async(user_message))
 
     def reset_conversation(self) -> None:
         """Clear the local chat history."""
         with self._lock:
             self.conversation_history = []
+
+    async def _connect_to_server(self, exit_stack: AsyncExitStack) -> ClientSession:
+        server_params = StdioServerParameters(
+            command=sys.executable,
+            args=[str(SERVER_PATH)],
+            env=None,
+        )
+
+        stdio_transport = await exit_stack.enter_async_context(stdio_client(server_params))
+        stdio, write = stdio_transport
+
+        session = await exit_stack.enter_async_context(ClientSession(stdio, write))
+        await session.initialize()
+        return session
+
+    async def _send_message_async(self, user_message: str) -> str:
+        async with AsyncExitStack() as exit_stack:
+            session = await self._connect_to_server(exit_stack)
+            tools = (await session.list_tools()).tools
+            return "Connected to MCP tools: " + ", ".join(tool.name for tool in tools)
