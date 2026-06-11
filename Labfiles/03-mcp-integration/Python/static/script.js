@@ -2,7 +2,7 @@ const messageInput = document.getElementById('messageInput');
 const sendBtn = document.getElementById('sendBtn');
 const chatMessages = document.getElementById('chatMessages');
 const resetBtn = document.getElementById('resetBtn');
-const setupHelpHtml = 'Your MCP inventory agent is not connected yet. Check Azure sign-in and your <code>.env</code> values, then restart the interface.';
+const setupHelpHtml = 'Your MCP inventory agent is not connected yet. Check Azure sign-in and your <code>.env</code> values, then restart the interface. <a href="documentation.html">Read the documentation</a>.';
 
 sendBtn.addEventListener('click', sendMessage);
 messageInput.addEventListener('keypress', (event) => {

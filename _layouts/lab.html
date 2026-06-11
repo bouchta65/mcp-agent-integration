@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.lab.title | default: page.title | default: site.title }}</title>
+    <link rel="stylesheet" href="{{ '/Labfiles/03-mcp-integration/Python/static/style.css' | relative_url }}">
+</head>
+
+<body class="docs-body lab-doc-body">
+    <header class="lab-topbar">
+        <a class="lab-title-link" href="{{ '/documentation.html' | relative_url }}">
+            Extend agents with MCP tools
+        </a>
+        <a class="lab-home-link" href="{{ '/documentation.html' | relative_url }}">Home</a>
+    </header>
+
+    <main class="lab-shell">
+        <aside id="labTocPanel" class="lab-sidebar" aria-label="Page sections">
+            <nav id="labToc" class="lab-toc"></nav>
+        </aside>
+
+        <article id="labArticle" class="docs-article lab-article">
+            {{ content }}
+        </article>
+    </main>
+
+    <script>
+        const article = document.getElementById('labArticle');
+        const toc = document.getElementById('labToc');
+
+        if (article && toc) {
+            const headings = [];
+
+            article.querySelectorAll('h2').forEach((heading) => {
+                if (!heading.id) {
+                    heading.id = heading.textContent
+                        .toLowerCase()
+                        .trim()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-|-$/g, '');
+                }
+
+                const link = document.createElement('a');
+                link.href = `#${heading.id}`;
+                link.textContent = heading.textContent;
+                toc.appendChild(link);
+                headings.push({ heading, link });
+            });
+
+            if (headings.length) {
+                headings[0].link.classList.add('is-active');
+
+                const setActiveLink = (id) => {
+                    headings.forEach(({ link }) => {
+                        link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
+                    });
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            setActiveLink(entry.target.id);
+                        }
+                    });
+                }, {
+                    rootMargin: '-18% 0px -70% 0px',
+                    threshold: 0
+                });
+
+                headings.forEach(({ heading }) => observer.observe(heading));
+            }
+        }
+    </script>
+</body>
+
+</html>

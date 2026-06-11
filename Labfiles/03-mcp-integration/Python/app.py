@@ -27,7 +27,8 @@ app = Flask(
 AGENT_SETUP_MESSAGE = (
     "Your MCP inventory agent is not connected yet. "
     "Check Azure sign-in, PROJECT_ENDPOINT, and MODEL_DEPLOYMENT_NAME in your `.env` file, "
-    "then restart this interface."
+    "then restart this interface. "
+    "[Read the documentation](documentation.html)."
 )
 
 
@@ -138,7 +139,7 @@ def instruction_page(exercise_name):
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>{{ title }}</title>
-            <link rel="stylesheet" href="/static/style.css">
+            <link rel="stylesheet" href="/Labfiles/03-mcp-integration/Python/static/style.css">
         </head>
         <body class="docs-body lab-doc-body">
             <header class="lab-topbar">
