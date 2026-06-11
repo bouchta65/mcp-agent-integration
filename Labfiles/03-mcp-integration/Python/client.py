@@ -20,3 +20,22 @@ os.system('cls' if os.name=='nt' else 'clear')
 load_dotenv()
 project_endpoint = os.getenv("PROJECT_ENDPOINT")
 model_deployment = os.getenv("MODEL_DEPLOYMENT_NAME")
+
+async def connect_to_server(exit_stack: AsyncExitStack):
+    server_params = StdioServerParameters(
+        command="python",
+        args=["server.py"],
+        env=None
+    )
+
+    # Start the MCP server
+    stdio_transport = await exit_stack.enter_async_context(stdio_client(server_params))
+    stdio, write = stdio_transport
+
+    # Create an MCP client session
+    session = await exit_stack.enter_async_context(ClientSession(stdio, write))
+    await session.initialize()    
+
+    # List available tools
+    response = await session.list_tools()
+    tools = response.tools
