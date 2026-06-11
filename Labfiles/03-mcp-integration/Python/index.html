@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Inventory Agent</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ff5c1a'/%3E%3Ctext x='50' y='62' text-anchor='middle' font-size='31' font-family='Arial' font-weight='700' fill='%23141518'%3EMCP%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="top-bar" role="banner">
+            <div class="toolbar-left" role="toolbar" aria-label="Chat controls">
+                <button id="resetBtn" class="new-chat-btn" title="Start a new conversation" aria-label="Start a new conversation"
+                    tabindex="3">+ New</button>
+                <button class="toolbar-btn" type="button" aria-label="Toggle appearance">
+                    <svg class="toolbar-svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 4V2M12 22v-2M4.93 4.93 3.52 3.52M20.48 20.48l-1.41-1.41M4 12H2M22 12h-2M4.93 19.07l-1.41 1.41M20.48 3.52l-1.41 1.41" />
+                        <circle cx="12" cy="12" r="4" />
+                    </svg>
+                </button>
+                <button class="toolbar-btn" type="button" aria-label="Share conversation">
+                    <svg class="toolbar-svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 16V4" />
+                        <path d="M7 9l5-5 5 5" />
+                        <path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
+                    </svg>
+                </button>
+                <button class="toolbar-btn" type="button" aria-label="Settings">
+                    <svg class="toolbar-svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
+                        <path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.04.04a2.1 2.1 0 0 1-2.97 2.97l-.04-.04a1.8 1.8 0 0 0-1.98-.36 1.8 1.8 0 0 0-1.1 1.66V21a2.1 2.1 0 0 1-4.2 0v-.06a1.8 1.8 0 0 0-1.1-1.66 1.8 1.8 0 0 0-1.98.36l-.04.04a2.1 2.1 0 0 1-2.97-2.97l.04-.04A1.8 1.8 0 0 0 4.6 15a1.8 1.8 0 0 0-1.66-1.1H3a2.1 2.1 0 0 1 0-4.2h.06A1.8 1.8 0 0 0 4.72 8.6a1.8 1.8 0 0 0-.36-1.98l-.04-.04a2.1 2.1 0 0 1 2.97-2.97l.04.04A1.8 1.8 0 0 0 9.3 4a1.8 1.8 0 0 0 1.1-1.66V2.3a2.1 2.1 0 0 1 4.2 0v.06A1.8 1.8 0 0 0 15.7 4a1.8 1.8 0 0 0 1.98-.36l.04-.04a2.1 2.1 0 0 1 2.97 2.97l-.04.04A1.8 1.8 0 0 0 19.28 8.6a1.8 1.8 0 0 0 1.66 1.1H21a2.1 2.1 0 0 1 0 4.2h-.06A1.8 1.8 0 0 0 19.4 15Z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="auth-actions" aria-label="Reference actions">
+                <a class="signup-btn" href="documentation.html">Instructions</a>
+            </div>
+        </header>
+
+        <main class="chat-stage" role="main">
+            <section class="chat-column" aria-label="MCP Inventory Agent chat">
+                <div class="prompt-pill" aria-hidden="true">Ask about inventory levels and weekly sales</div>
+
+                <div id="chatMessages" class="chat-messages" role="log" aria-live="polite" aria-atomic="false"
+                    aria-label="Chat messages">
+                    <div class="welcome-message" role="status">
+                        <span class="agent-mark" aria-hidden="true">MCP</span>
+                        <div>
+                            <strong>MCP Inventory Agent</strong> is ready to check inventory, compare weekly sales,
+                            and recommend restock or clearance actions using local MCP tools.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="composer-panel" role="form" aria-label="Message input form">
+                <div class="composer-card">
+                    <label for="messageInput" class="sr-only">Type your message</label>
+                    <input type="text" id="messageInput" class="message-input" placeholder="Ask the MCP inventory agent"
+                        autocomplete="off" aria-label="Message input field" aria-describedby="inputHelp" tabindex="1"
+                        maxlength="10000">
+
+                    <div class="composer-actions">
+                        <div class="composer-tools" aria-hidden="true">
+                            <span class="tool-chip brand-chip">
+                                <svg class="brand-svg" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M6 16V8l4.2 5.1L14.4 8v8" />
+                                    <path d="M5 16h14" />
+                                </svg>
+                            </span>
+                            <span class="tool-chip plus-chip">
+                                <svg class="plus-svg" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 5v14" />
+                                    <path d="M5 12h14" />
+                                </svg>
+                            </span>
+                            <span class="tool-label">
+                                <svg class="tool-svg" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M9 18h6" />
+                                    <path d="M10 22h4" />
+                                    <path d="M8.4 14.6A6 6 0 1 1 15.6 14.6c-.9.7-1.1 1.6-1.1 2.4h-5c0-.8-.2-1.7-1.1-2.4Z" />
+                                </svg>
+                                Think
+                            </span>
+                            <span class="tool-label">
+                                <svg class="tool-svg" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M4 4h6v6H4z" />
+                                    <path d="M14 4h6v6h-6z" />
+                                    <path d="M4 14h6v6H4z" />
+                                    <path d="M14 14h6v6h-6z" />
+                                </svg>
+                                MCP
+                            </span>
+                        </div>
+
+                        <button id="sendBtn" class="send-btn" title="Send message" aria-label="Send message" tabindex="2">
+                            <svg class="send-svg" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 19V5" />
+                                <path d="M6 11l6-6 6 6" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer" role="contentinfo">
+            <span id="inputHelp">MCP Inventory Agent can make mistakes. Check important answers.</span>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
