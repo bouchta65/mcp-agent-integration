@@ -21,6 +21,7 @@ app = Flask(
     __name__,
     template_folder=str(ROOT_DIR),
     static_folder=str(APP_DIR / "static"),
+    static_url_path="/Labfiles/03-mcp-integration/Python/static",
 )
 
 AGENT_SETUP_MESSAGE = (
